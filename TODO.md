@@ -1,7 +1,7 @@
-- [ ] When processing, store raw mail envelope file content
-- [ ] Style emails / email list in a nice way
-- [ ] Sanitize email HTML - https://github.com/jmapio/jmap-demo-webmail/blob/master/libs/DOMPurify.js
+- [x] When processing, store raw mail envelope file content
+- [x] Style emails / email list in a nice way
+- [x] Sanitize email HTML - https://github.com/jmapio/jmap-demo-webmail/blob/master/libs/DOMPurify.js
 - [ ] Handle non-gmail mbox files
 - [ ] Figure out threading - `Message-Id` / `In-Reply-To` / `References`
-- [ ] Make attachments work
+- [x] Make attachments work
 - [ ] Deploy online

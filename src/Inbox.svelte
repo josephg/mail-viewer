@@ -10,34 +10,14 @@ import Email from './Email.svelte'
 
 export let data
 
-let mailboxes
-$: mailboxes = Object.keys(data.mailboxThreads)
+let mailboxes = Object.keys(data.mailboxThreads)
 
-let activeMailbox = null // string
+let activeMailbox = mailboxes[0] // string
 let activeThreadId = null // string
 
 function selectMbox(e) {
   activeMailbox = e.target.dataset.name
   activeThreadId = null
-}
-
-function getSortedMessageIds(threadId) {
-  return data.emailsForThread.get(threadId)
-    .sort((a, b) => {
-      const ma = data.emails.get(a)
-      const mb = data.emails.get(b)
-      const da = new Date(ma.sentAt || ma.receivedAt)
-      const db = new Date(mb.sentAt || mb.receivedAt)
-
-      return (da < db) ? -1
-        : (da == db) ? 0
-        : 1
-    })
-}
-
-function getFirstEmail(threadId) {
-  // return data.emails.get(data.emailsForThread.get(threadId)[0])
-  return data.emails.get(getSortedMessageIds(threadId)[0])
 }
 
 </script>
@@ -96,13 +76,13 @@ light black purple - #5b4462
     Select a mailbox from the list on the left
   {:else if activeThreadId == null}
     {#each [...data.mailboxThreads[activeMailbox]] as threadId (threadId)}
-      <EmailListItem firstEmail={getFirstEmail(threadId)} onClick={() => {activeThreadId = threadId}} />
+      <EmailListItem thread={data.threads.get(threadId)} onClick={() => {activeThreadId = threadId}} />
     {/each}
   {:else}
     <button on:click={() => {activeThreadId = null}}>Back</button>
-    <div>
-      {#each getSortedMessageIds(activeThreadId).map(mid => data.emails.get(mid)) as message (message.id)}
-        <Email {message} />
+    <div style="overflow: scroll;">
+      {#each data.threads.get(activeThreadId).messages as mid}
+        <Email raw={data.emailBytes.get(mid)} />
       {/each}
     </div>
   {/if}

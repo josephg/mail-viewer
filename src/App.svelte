@@ -3,9 +3,7 @@
 import Process from './Process.svelte'
 import Choose from './Choose.svelte'
 import Inbox from './Inbox.svelte'
-
-import mod from 'mime-to-jmap'
-
+import {scanEmails} from './processMail'
 
 // State is one of 'choose', 'processing', 'list', 'message'.
 let state = 'choose'
@@ -16,6 +14,14 @@ let loadState = null
 let data = null
 
 function process(file) {
+  // const r = file.stream()
+
+  // ;(async () => {
+  //   for await (const blob of r) {
+      
+  //   }
+  // })()
+
   console.log('process', file)
   uiProgress = 0
   state = 'processing'
@@ -38,83 +44,20 @@ function process(file) {
 
 }
 
-const parseOpts = {
-  fetchHTMLBodyValues: true,
-  want_headers: [
-    'header:X-Gmail-Labels:asText',
-    'header:X-GM-THRID:asText',
-  ]
-}
-const gmailToJMAPKeywords = {
-  Important: '$important',
-  Starred: '$flagged',
-}
-
 async function parseEmails(buf) {
   loadState = 'Parsing emails'
   uiProgress = 0
-  await mod.ready
-  console.log('mod', mod)
 
-  let emails = new Map() // map from ID => JSON
-  let emailsForThread = new Map() // map from thread ID => sorted list of email IDs
-  const mailboxThreads = {} // string -> set of thread ids
-
-  for await (const {msg, progress} of mod.mbox_each_progress([new Uint8Array(buf)])) {
-    // console.log('msg', msg, 'progress', progress)
-    const {body, mboxFromAddress, receivedAt} = mod.mbox_to_eml(msg)
-    const {json} = mod.envelope_to_jmap(body, parseOpts)
-    const id = json.id = 'MG' + mboxFromAddress.split('@')[0]
-    const threadId = json.threadId = 'TG' + json['header:X-GM-THRID:asText']
-    delete json['header:X-GM-THRID:asText']
-    json.receivedAt = receivedAt
-
-    const msgKeywords = json.keywords = {}// as {[k: string]: true}
-    const msgMailboxes = json.mailboxes = {}// as {[k: string]: true}
-    
-    const labels = json['header:X-Gmail-Labels:asText'].split(',')
-    delete json['header:X-Gmail-Labels:asText']
-    let seen = true
-    for (const k of labels) {
-      // Handle unread state below, since its inverted.
-      if (k === 'Unread') seen = false
-      else { 
-        const keyword = gmailToJMAPKeywords[k]
-        if (keyword) msgKeywords[keyword] = true
-        else msgMailboxes[k] = true
-      }
-    }
-    if (seen) msgKeywords['$seen'] = seen
-
-    console.log(json)
-
-
-    emails.set(id, json)
-
-    console.log('mailboxes', msgMailboxes, 'msgKeywords', msgKeywords)
-    let thread = emailsForThread.get(threadId)
-    if (thread == null) {
-      emailsForThread.set(threadId, thread = [])
-    }
-    thread.push(id)
-
-    for (const k in msgMailboxes) {
-      let m = mailboxThreads[k]
-      if (m == null) mailboxThreads[k] = m = new Set()
-      m.add(threadId)
-    }
-
-    uiProgress = progress / buf.byteLength * 100
-    await new Promise(resolve => {setTimeout(resolve, 0)})
-  }
+  //.....
+  data = await scanEmails(buf, p => {uiProgress = p * 100})
 
   state = 'list'
 
-  data = {
-    emails,
-    emailsForThread,
-    mailboxThreads
-  }
+  // data = {
+  //   emails,
+  //   emailsForThread,
+  //   mailboxThreads
+  // }
 
 }
 

@@ -1,13 +1,13 @@
 <script>
 
-export let firstEmail // jmap json object
+export let thread // jmap json object
 export let onClick
 
-$: console.log('email', firstEmail)
+$: console.log('thread', thread)
 
-let from
-$: from = firstEmail.from
-  .map(f => f.name || f.email).join(', ')
+// let from
+// $: from = firstEmail.from
+//   .map(f => f.name || f.email).join(', ')
 
 
 </script>
@@ -62,10 +62,13 @@ $: from = firstEmail.from
 </style>
 <div class="item" on:click={onClick} >
   <div class="mailtop">
-    <span class="from">{from}</span>
-    <span class="subject">{firstEmail.subject}</span>
+    <span class="from">{thread.participants.join(', ')}</span>
+    <span class="subject">{thread.subject}</span>
   </div>
   <div class="preview">
-    {firstEmail.preview || ''}
+    {#if thread.hasAttachments}
+      📎
+    {/if}
+    {thread.preview || ''}
   </div>
 </div>
