@@ -4,11 +4,11 @@
 - [x] Handle non-gmail mbox files
 - [x] Figure out threading - `Message-Id` / `In-Reply-To` / `References`
 - [x] Make attachments work
-- [ ] Deploy online
-- [ ] Style the "select mbox file" screen
-- [ ] Handle single eml files
+- [x] Inline images
+- [x] Handle single eml files
 - [x] Add an 'All mail' category
-- [ ] Read multiple files
+- [x] Read multiple files
+- [ ] Style the "select mbox file" screen
 - [ ] Chase up snowpack so I don't need to have a separate build of mime-to-jmap
 - [ ] Trim requested fields in initial fetch
-- [x] Inline images
+- [ ] Deploy online

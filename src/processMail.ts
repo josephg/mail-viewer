@@ -160,11 +160,12 @@ class ThreadGroups {
 const yieldUI = () => new Promise(resolve => {setTimeout(resolve, 0)})
 
 const isProbablyMbox = (buf: Uint8Array) => {
-  return buf[0] === 0x0a // File starts with 'From '
-    && buf[1] === 0x46
-    && buf[2] === 0x72
-    && buf[3] === 0x6f
-    && buf[4] === 0x6d
+  // Check the file starts with 'From '
+  return buf[0] === 0x46
+    && buf[1] === 0x72
+    && buf[2] === 0x6f
+    && buf[3] === 0x6d
+    && buf[4] === 0x20
 }
 
 async function *eachEmailIn(buf: Uint8Array, lastModified: number) {

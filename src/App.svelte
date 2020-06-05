@@ -43,13 +43,6 @@ function getBuf(file) {
 
 async function process(files) {
   state = 'processing'
-  // const r = file.stream()
-
-  // ;(async () => {
-  //   for await (const blob of r) {
-      
-  //   }
-  // })()
 
   // I could use Promise.all here but I want to load the files into memory one at a time.
   const bufs = [] // list of {buf, name, lastModified}
