@@ -2,8 +2,9 @@ module.exports = {
     scripts: {
         "mount:public": "mount public --to /",
         "mount:src": "mount src --to /_dist_",
-        "mount:cyrus": "mount node_modules/mime-to-jmap/dist/ --to /"
+        "mount:cyrus": "mount node_modules/mime-to-jmap/dist/ --to /",
 
+        "bundle:*": "@snowpack/plugin-parcel",
     },
 
     devOptions: {
@@ -19,6 +20,9 @@ module.exports = {
     },
 
     plugins: [
-        '@snowpack/plugin-svelte'
-    ]
+        '@snowpack/plugin-svelte',
+        '@snowpack/plugin-parcel'
+    ],
+
+    homepage: '/mail-viewer'
 }

@@ -44,6 +44,8 @@ function selectMbox(e) {
 
 whiteish - #dceff4
 
+Yellow - #F9C22E
+
 black purple - #0C090D
 light black purple - #5b4462
 */

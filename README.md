@@ -1,5 +1,7 @@
 # Email viewer
 
+[Hosted online](https://josephg.com/mail-viewer/index.html)
+
 This is a little email viewer demo project. Its not entirely styled, but its useful enough to be able to open and view emails in an email archive. It supports:
 
 - Text and HTML emails
