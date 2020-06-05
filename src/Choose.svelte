@@ -21,10 +21,35 @@ function submit(e) {
 
 </script>
 
-<form on:submit={submit}>
+<style>
+
+#choose {
+  margin: 2em;
+  grid-area: content;
+}
+
+#choose h2 {
+  margin-bottom: 0.3em;
+}
+
+#choose button {
+  font-size: 150%;
+  margin: 1em;
+} 
+
+#choose p {
+  max-width: 800px;
+}
+
+</style>
+
+<form on:submit={submit} id="choose">
 
   <label for="mboxfile">
-    <div>Choose an mbox file to load</div>
+    <h2>Choose files to load</h2>
+    <p>
+      You can use any mbox files, or individually saved email files. But that said, I've mostly only tested with email exported from google takeout. Please file an issue if you run into trouble!
+    </p>
   </label>
   <input
     type="file"

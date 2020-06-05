@@ -66,6 +66,7 @@ light black purple - #5b4462
 #mailboxes > * {
   padding: 0.5em 0 0.5em 1em;
   border-bottom: 1px solid #dceff4;
+  cursor: pointer;
 }
 #mailboxes > *:not(.selectedMailboxLabel):hover {
   background-color: #5b4462;

@@ -81,17 +81,44 @@ async function process(files) {
   border-bottom: 4px solid #F9C22E;
 }
 
+#another {
+  height: 25px;
+  margin: 5px 1em;
+}
+
+.ghlink {
+  /* display: inline-block; */
+  float: right;
+  color: #F9C22E;
+  margin: auto 1em;
+  height: 100%;
+}
+
+.ghlink > a {
+  text-decoration: none;
+  vertical-align: middle;
+  vertical-align: -moz-middle-with-baseline;
+}
+.ghlink > a:visited {
+  color: #F9C22E;
+}
+.ghlink > a:hover {
+  text-decoration: underline;
+}
+
 </style>
 
 <div class="container">
   <div class="header">
     {#if state !== 'choose'}
-      <button on:click={() => {
+      <button id="another" on:click={() => {
         state = 'choose'
         data = null
         loadProgress = 0
-      }}>Open another mail file</button>
+      }}>&lt; Open another</button>
     {/if}
+
+    <span class="ghlink"><a href="https://github.com/josephg/mbox-viewer">View on Github</a></span>
   </div>
 
   {#if state === 'choose'}

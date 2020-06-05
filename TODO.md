@@ -8,6 +8,7 @@
 - [x] Handle single eml files
 - [x] Add an 'All mail' category
 - [x] Read multiple files
+- [x] Simple README
 - [ ] Style the "select mbox file" screen
 - [ ] Chase up snowpack so I don't need to have a separate build of mime-to-jmap
 - [ ] Trim requested fields in initial fetch

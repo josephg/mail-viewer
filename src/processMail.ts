@@ -177,10 +177,15 @@ async function *eachEmailIn(buf: Uint8Array, lastModified: number) {
 
   
       // TODO: Restrict this to get way fewer fields
-      const {json} = mod.envelope_to_jmap(body, parseOpts)
-      json.receivedAt = receivedAt
+      try {
+        const {json} = mod.envelope_to_jmap(body, parseOpts)
+        json.receivedAt = receivedAt
 
-      yield {json, progress, body}
+        yield {json, progress, body}
+      } catch (e) {
+        console.error('Could not parse email', e, body)
+        // But keep parsing the other files...
+      }
     }
   } else {
     console.log('Parsing as single email')
