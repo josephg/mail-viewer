@@ -10,6 +10,14 @@ module.exports = {
         open: "false"
     },
 
+    installOptions: {
+        // alias: {
+        //     path: './stub.js',
+        //     crypto: './stub.js',
+        //     fs: './stub.js',
+        // }
+    },
+
     plugins: [
         '@snowpack/plugin-svelte'
     ]

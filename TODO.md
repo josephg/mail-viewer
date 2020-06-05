@@ -1,7 +1,14 @@
 - [x] When processing, store raw mail envelope file content
 - [x] Style emails / email list in a nice way
 - [x] Sanitize email HTML - https://github.com/jmapio/jmap-demo-webmail/blob/master/libs/DOMPurify.js
-- [ ] Handle non-gmail mbox files
-- [ ] Figure out threading - `Message-Id` / `In-Reply-To` / `References`
+- [x] Handle non-gmail mbox files
+- [x] Figure out threading - `Message-Id` / `In-Reply-To` / `References`
 - [x] Make attachments work
 - [ ] Deploy online
+- [ ] Style the "select mbox file" screen
+- [ ] Handle single eml files
+- [x] Add an 'All mail' category
+- [ ] Read multiple files
+- [ ] Chase up snowpack so I don't need to have a separate build of mime-to-jmap
+- [ ] Trim requested fields in initial fetch
+- [x] Inline images

@@ -8,8 +8,9 @@ import {scanEmails} from './processMail'
 // State is one of 'choose', 'processing', 'list', 'message'.
 let state = 'choose'
 
-let uiProgress = 0
+
 let loadState = null
+let loadProgress = 0
 
 let data = null
 
@@ -23,7 +24,7 @@ function process(file) {
   // })()
 
   console.log('process', file)
-  uiProgress = 0
+  loadProgress = 0
   state = 'processing'
 
   loadState = 'Reading file'
@@ -36,8 +37,8 @@ function process(file) {
     parseEmails(reader.result)
   }
   reader.onprogress = e => {
-    // console.log('uiProgress', e.loaded)
-    uiProgress = e.loaded / file.size * 100
+    // console.log('loadProgress', e.loaded)
+    loadProgress = e.loaded / file.size * 100
   }
 
   reader.readAsArrayBuffer(file)
@@ -46,10 +47,13 @@ function process(file) {
 
 async function parseEmails(buf) {
   loadState = 'Parsing emails'
-  uiProgress = 0
+  loadProgress = 0
 
   //.....
-  data = await scanEmails(buf, p => {uiProgress = p * 100})
+  data = await scanEmails(buf, (m, p) => {
+    loadState = m
+    loadProgress = p * 100
+  })
 
   state = 'list'
 
@@ -89,7 +93,7 @@ async function parseEmails(buf) {
       <button on:click={() => {
         state = 'choose'
         data = null
-        uiProgress = 0
+        loadProgress = 0
       }}>Open another mbox file</button>
     {/if}
   </div>
@@ -97,10 +101,10 @@ async function parseEmails(buf) {
   {#if state === 'choose'}
     <Choose process={process} />
   {:else if state === 'processing'}
-    <Process {loadState} progress={uiProgress} />
+    <Process {loadState} progress={loadProgress} />
   {:else if state === 'list' || state === 'message'}
     <Inbox {data} />
   {:else}
-  Invalid state {state}
+    Invalid state {state}
   {/if}
 </div>

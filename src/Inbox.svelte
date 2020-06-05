@@ -10,7 +10,7 @@ import Email from './Email.svelte'
 
 export let data
 
-let mailboxes = Object.keys(data.mailboxThreads)
+let mailboxes = Object.keys(data.mailboxes)
 
 let activeMailbox = mailboxes[0] // string
 let activeThreadId = null // string
@@ -75,7 +75,7 @@ light black purple - #5b4462
   {#if activeMailbox == null}
     Select a mailbox from the list on the left
   {:else if activeThreadId == null}
-    {#each [...data.mailboxThreads[activeMailbox]] as threadId (threadId)}
+    {#each data.mailboxes[activeMailbox] as threadId (threadId)}
       <EmailListItem thread={data.threads.get(threadId)} onClick={() => {activeThreadId = threadId}} />
     {/each}
   {:else}

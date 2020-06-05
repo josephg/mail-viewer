@@ -38,6 +38,14 @@ $: console.log('thread', thread)
   font-size: 84%;
 }
 
+.msgnum {
+  display: inline-block;
+  font-size: 70%;
+  overflow: hidden;
+  font-weight: lighter;
+  color: #555;
+}
+
 .subject {
   display: inline-block;
   text-overflow: ellipsis;
@@ -63,7 +71,12 @@ $: console.log('thread', thread)
 <div class="item" on:click={onClick} >
   <div class="mailtop">
     <span class="from">{thread.participants.join(', ')}</span>
-    <span class="subject">{thread.subject}</span>
+    {#if thread.messages.length > 1}
+      <span class="msgnum">{thread.messages.length}x</span>
+    {/if}
+    <span class="subject">
+      {thread.subject}
+    </span>
   </div>
   <div class="preview">
     {#if thread.hasAttachments}

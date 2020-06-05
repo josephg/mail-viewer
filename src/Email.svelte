@@ -19,7 +19,10 @@ const {
 } = mod.envelope_to_jmap(raw, {with_attachments: true})
 console.log('attachments', attachmentData)
 
+console.log('rendering message', message)
+
 const attachments = []
+const urlForCid = {}
 const showTypes = new Set([
   'image/gif',
   'image/png',
@@ -27,14 +30,12 @@ const showTypes = new Set([
   'text/plain',
   'text/html',
 ])
-for (const {name, blobId, type} of message.attachments) {
+for (const {name, blobId, type, cid} of message.attachments) {
   const data = attachmentData[blobId]
   console.log('attachment', name, blobId, type, data.byteLength)
-  attachments.push({
-    name,
-    type,
-    url: URL.createObjectURL(new Blob([data], {type: type})),
-  })
+  const url = URL.createObjectURL(new Blob([data], {type: type}))
+  attachments.push({name, type, url})
+  if (cid != null) urlForCid[cid] = url
 }
 
 onDestroy(() => {
@@ -52,8 +53,19 @@ let bodyData = message.bodyValues[bodyObj.partId].value
 
 onMount(() => {
   if (bodyObj.type === 'text/html') {
-    let html = drawHTML(bodyData)
-    console.log('htmlBody', message.htmlBody[0], message.bodyValues[message.htmlBody[0].partId])
+    let html = drawHTML(bodyData, urlForCid)
+    // console.log('htmlBody', message.htmlBody[0], message.bodyValues[message.htmlBody[0].partId])
+
+    // Wire up inline images
+    const images = html.getElementsByTagName('img')
+    for (const img of images) {
+      const src = img.src
+      if (src.startsWith('cid:')) {
+        const cid = src.slice('cid:'.length)
+        img.src = urlForCid[cid]
+      }
+    }
+
     bodyContainer.appendChild(html);
   }
 });
