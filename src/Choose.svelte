@@ -16,7 +16,7 @@ function submit(e) {
   console.log('submit')
   e.preventDefault()
   // state = 'processing'
-  process(files[0])
+  process(files)
 }
 
 </script>
@@ -29,7 +29,8 @@ function submit(e) {
   <input
     type="file"
     id="mboxfile"
-    accept="application/mbox,.mbox"
+    accept=".mbox,.eml,.msg,.txt,application/mbox,message/rfc822"
+    multiple
     bind:files
   >
     <!-- on:change={onFileSet} -->

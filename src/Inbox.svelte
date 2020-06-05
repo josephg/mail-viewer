@@ -10,10 +10,26 @@ import Email from './Email.svelte'
 
 export let data
 
-let mailboxes = Object.keys(data.mailboxes)
+const sortOrder = {
+  All: 1,
+  Inbox: 2,
+  Unread: 3,
+  Sent: 4,
+  Archived: 5,
+  Spam: 6,
+  'Has attachments': 10,
+  'Category Promotions': 100,
+  'Category Updates': 100,
+  'Category Forums': 100,
+  'Category Social': 100,
+}
+
+let mailboxes = Object.keys(data.mailboxes).sort((a, b) => (sortOrder[a] || 50) - (sortOrder[b] || 50))
 
 let activeMailbox = mailboxes[0] // string
 let activeThreadId = null // string
+
+if (data.threads.size === 1) activeThreadId = data.threads.keys().next().value
 
 function selectMbox(e) {
   activeMailbox = e.target.dataset.name

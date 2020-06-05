@@ -14,7 +14,35 @@ let loadProgress = 0
 
 let data = null
 
-function process(file) {
+function getBuf(file) {
+  return new Promise((resolve, reject) => {
+    console.log('process', file)
+    loadProgress = 0
+
+
+    loadState = `Reading file ${file.name}`
+
+    const reader = new FileReader()
+    reader.onabort = () => { console.log('aborted') }
+    reader.onerror = (e) => {
+      console.error('error:', e)
+      reject(e)
+    }
+    reader.onload = e => {
+      // console.log('buffer', reader.result)
+      resolve({buf: reader.result, name: file.name, lastModified: file.lastModified})
+    }
+    reader.onprogress = e => {
+      // console.log('loadProgress', e.loaded)
+      loadProgress = e.loaded / file.size * 100
+    }
+
+    reader.readAsArrayBuffer(file)
+  })
+}
+
+async function process(files) {
+  state = 'processing'
   // const r = file.stream()
 
   // ;(async () => {
@@ -23,48 +51,23 @@ function process(file) {
   //   }
   // })()
 
-  console.log('process', file)
-  loadProgress = 0
-  state = 'processing'
+  // I could use Promise.all here but I want to load the files into memory one at a time.
+  const bufs = [] // list of {buf, name, lastModified}
+  for (const f of files) bufs.push(await getBuf(f))
+  // const buf = await getBuf(file)
 
-  loadState = 'Reading file'
-
-  const reader = new FileReader()
-  reader.onabort = () => { console.log('aborted') }
-  reader.onerror = (e) => { console.error('error:', e) }
-  reader.onload = e => {
-    console.log('buffer', reader.result)
-    parseEmails(reader.result)
-  }
-  reader.onprogress = e => {
-    // console.log('loadProgress', e.loaded)
-    loadProgress = e.loaded / file.size * 100
-  }
-
-  reader.readAsArrayBuffer(file)
-
-}
-
-async function parseEmails(buf) {
   loadState = 'Parsing emails'
   loadProgress = 0
 
   //.....
-  data = await scanEmails(buf, (m, p) => {
+  data = await scanEmails(bufs, (m, p) => {
     loadState = m
     loadProgress = p * 100
   })
 
   state = 'list'
 
-  // data = {
-  //   emails,
-  //   emailsForThread,
-  //   mailboxThreads
-  // }
-
 }
-
 
 </script>
 
@@ -94,7 +97,7 @@ async function parseEmails(buf) {
         state = 'choose'
         data = null
         loadProgress = 0
-      }}>Open another mbox file</button>
+      }}>Open another mail file</button>
     {/if}
   </div>
 

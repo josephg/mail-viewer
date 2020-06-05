@@ -3,7 +3,7 @@
 export let thread // jmap json object
 export let onClick
 
-$: console.log('thread', thread)
+// $: console.log('thread', thread)
 
 // let from
 // $: from = firstEmail.from

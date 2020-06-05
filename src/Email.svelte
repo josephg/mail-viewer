@@ -34,7 +34,7 @@ for (const {name, blobId, type, cid} of message.attachments) {
   const data = attachmentData[blobId]
   console.log('attachment', name, blobId, type, data.byteLength)
   const url = URL.createObjectURL(new Blob([data], {type: type}))
-  attachments.push({name, type, url})
+  attachments.push({name: name || blobId, type, url})
   if (cid != null) urlForCid[cid] = url
 }
 
