@@ -3959,10 +3959,10 @@ mime-db@1.44.0:
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.44.0.tgz#fa11c5eb0aca1334b4233cb4d52f10c5a6272f92"
   integrity sha512-/NOTfLrsPBVeH7YtFPgsVWveuL+4SjjYxaQ1xtM1KMFj7HdxlBlxeyNLzhyJVx7r4rZGJAZ/6lkKCitSc/Nmpg==
 
-mime-to-jmap@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/mime-to-jmap/-/mime-to-jmap-0.1.0.tgz#bfaf59ff25727e6499a67ab54d0d74c9e74e9f65"
-  integrity sha512-twLab6IT/ISPLDCA/Hw9cyi1PVOgOomiYTH7iSb/aUxNXnUv8ZqJGd3o9ryLeDEHm+nGQ1pkZzBqYaFCvEbo1A==
+mime-to-jmap@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/mime-to-jmap/-/mime-to-jmap-0.2.0.tgz#a5afd2a6f4907921dec5fa2d2ae6bd36c2187cce"
+  integrity sha512-Z68n8b6Kp7aClYWsY3Oj5XcM5b5qtU/a0EOIZuUXWgxWi2HuXr9lUJth3lAd2mwHa6+CzPKfnxmAp/Gv3TtlLg==
   optionalDependencies:
     cli-progress "^3.4.0"
 
