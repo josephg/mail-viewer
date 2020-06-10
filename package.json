@@ -13,6 +13,6 @@
   },
   "scripts": {
     "start": "snowpack dev",
-    "build": "snowpack build && cp ../mime-to-jmap/Release/cyrus.wasm build/"
+    "build": "snowpack build && cp node_modules/mime-to-jmap/dist/cyrus.wasm build/"
   }
 }
