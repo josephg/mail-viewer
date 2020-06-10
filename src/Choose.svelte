@@ -68,7 +68,12 @@ button:disabled {
   color: #888;
 }
 
+p {
+  margin: 1em 1em;
+}
+
 input[type=file] {
+  display: block;
   margin: 1em 1em;
 }
 
@@ -76,23 +81,16 @@ input[type=file] {
 
 <form on:submit={submit} id="choose">
 
-  <label for="mboxfile">
-    <h2>Choose files to load</h2>
-    <p>
-      You can use any mbox files, or individually saved email files. But that said, I've mostly only tested with email exported from google takeout.
-      <a href="https://github.com/josephg/mbox-viewer/blob/master/README.md">Learn more about this mail viewer and file issues here!</a>
-    </p>
-  </label>
-  <input
-    type="file"
-    bind:this={filePicker}
-    id="mboxfile"
-    accept=".mbox,.eml,.msg,.txt,application/mbox,message/rfc822"
-    multiple
-    bind:files
-  >
-    <!-- on:change={onFileSet} -->
-
+  <h2>Choose files to load</h2>
+  <p>
+    Open mbox files, or load individual emails. You can add multiple files.
+  </p>
+  <p>
+    Your email is processed in your web browser. Your data never leaves your computer.
+  </p>
+  <p>
+    <a href="https://github.com/josephg/mbox-viewer/blob/master/README.md">Please file issues here if you run into problems!</a>
+  </p>
   <div>
     <button on:click={e => { filePicker.click(); e.preventDefault()}} class:softDisable={files != null}>
       1. Select files (eml or mbox)
@@ -100,5 +98,14 @@ input[type=file] {
     <button disabled={files == null}>
       2. Open 'er up!
     </button>
+
+    <input
+      type="file"
+      bind:this={filePicker}
+      id="mboxfile"
+      accept=".mbox,.eml,.msg,.txt,application/mbox,message/rfc822"
+      multiple
+      bind:files
+    >
   </div>
 </form>
