@@ -175,7 +175,6 @@ async function *eachEmailIn(buf: Uint8Array, lastModified: number) {
       // console.log('msg', msg, 'progress', progress)
       const {body, mboxFromAddress, receivedAt} = mod.mbox_to_eml(msg, true)
 
-  
       // TODO: Restrict this to get way fewer fields
       try {
         const {json} = mod.envelope_to_jmap(body, parseOpts)
