@@ -98,6 +98,7 @@ async function process(files) {
   text-decoration: none;
   vertical-align: middle;
   vertical-align: -moz-middle-with-baseline;
+  color: white;
 }
 .ghlink > a:visited {
   color: #F9C22E;
